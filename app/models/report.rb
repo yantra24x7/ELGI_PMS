@@ -62,13 +62,12 @@ class Report
     
     macro_list = []
     machines.each do |jj|
-      macro_list << "MacroVar_750_path1_#{jj}" #Operator Id
-      macro_list << "MacroVar_751_path1_#{jj}" #Route Card
-      macro_list << "MacroVar_752_path1_#{jj}" #Operation Number
-      macro_list << "MacroVar_753_path1_#{jj}" #Setting
-      macro_list << "MacroVar_755_path1_#{jj}" #Idle Reason
-      macro_list << "MacroVar_756_path1_#{jj}" #Rejection
-      macro_list << "MacroVar_757_path1_#{jj}" #Rework
+      macro_list << "MacroVar_100_path1_#{jj}" #Operator Id
+      macro_list << "MacroVar_101_path1_#{jj}" #Route Card
+      macro_list << "MacroVar_102_path1_#{jj}" #Operation Number
+      macro_list << "MacroVar_103_path1_#{jj}" #Idle Reason
+      macro_list << "MacroVar_104_path1_#{jj}" #Rejection
+      macro_list << "MacroVar_105_path1_#{jj}" #Rework
     end
     machine_log = L1Pool.where(:enddate.gte => start_time, :updatedate.lte => end_time, :L1Name.in => machines).only(:L1Name, :value, :timespan, :updatedate, :enddate).group_by{|dd| dd[:L1Name]}
     p_result = ProductResultHistory.where(:enddate.gte => start_time, :updatedate.lte => end_time, :enddate.lte => end_time)
@@ -140,10 +139,10 @@ class Report
      total_count_shift = p_result.select{|d| d.L1Name == key && d.productresult != 0 && d.productresult != nil}.pluck(:productresult).sum
     # -- test code -- #
 
-     tot_rejection = signal_logs.select{|o| o.enddate > start_time && o.updatedate < end_time && o.signalname == "MacroVar_756_path1_#{key}"}.pluck(:value).uniq.select{|i| i!=nil && i!= 0}.sum
-     tot_rework =  signal_logs.select{|w| w.enddate > start_time && w.updatedate < end_time && w.signalname == "MacroVar_757_path1_#{key}"}.pluck(:value).uniq.select{|i| i!=nil && i != 0}.sum
-     tot_oper_id = signal_logs.select{|q| q.enddate > start_time && q.updatedate < end_time && q.signalname == "MacroVar_752_path1_#{key}"}.pluck(:value).uniq.select{|i| i!=nil && i!= 0}
-     tot_operator_id = signal_logs.select{|q| q.enddate > start_time && q.updatedate < end_time && q.signalname == "MacroVar_750_path1_#{key}"}.pluck(:value).uniq.select{|i| i!=nil && i!= 0}#.reject! &:nan?
+     tot_rejection = signal_logs.select{|o| o.enddate > start_time && o.updatedate < end_time && o.signalname == "MacroVar_104_path1_#{key}"}.pluck(:value).uniq.select{|i| i!=nil && i!= 0}.sum
+     tot_rework =  signal_logs.select{|w| w.enddate > start_time && w.updatedate < end_time && w.signalname == "MacroVar_105_path1_#{key}"}.pluck(:value).uniq.select{|i| i!=nil && i != 0}.sum
+     tot_oper_id = signal_logs.select{|q| q.enddate > start_time && q.updatedate < end_time && q.signalname == "MacroVar_102_path1_#{key}"}.pluck(:value).uniq.select{|i| i!=nil && i!= 0}
+     tot_operator_id = signal_logs.select{|q| q.enddate > start_time && q.updatedate < end_time && q.signalname == "MacroVar_100_path1_#{key}"}.pluck(:value).uniq.select{|i| i!=nil && i!= 0}#.reject! &:nan?
 
   #  if tot_operator_id.include? Float::NAN 
   #  tot_operator_id_lis = tot_operator_id.reject! &:nan?
@@ -174,11 +173,11 @@ class Report
     # ---- Route Card ---- #
     # MacroVar_751_path1_#{key} 
      route_card_data = []
-     route_logs = signal_logs.select{|g| g.L1Name == key && g.signalname == "MacroVar_751_path1_#{key}"}
-     route_log = signal_log.select{|f| f.L1Name == key && f.signalname == "MacroVar_751_path1_#{key}"}
+     route_logs = signal_logs.select{|g| g.L1Name == key && g.signalname == "MacroVar_101_path1_#{key}"}
+     route_log = signal_log.select{|f| f.L1Name == key && f.signalname == "MacroVar_101_path1_#{key}"}
      # ----- Idle Reason ---- #
      idle_reason_data = []
-     idle_logs = signal_logs.select{|g| g.L1Name == key && g.signalname == "MacroVar_755_path1_#{key}"}
+     idle_logs = signal_logs.select{|g| g.L1Name == key && g.signalname == "MacroVar_103_path1_#{key}"}
    #  idle_log = signal_log.select{|f| f.L1Name == key && f.signalname == "MacroVar_755_path1_#{key}"}
      
    #  if idle_log.present?
@@ -243,7 +242,7 @@ class Report
        time_wise_route_list.each do |data|
          production_result  = p_result.select{|sel| sel.enddate > data[:st_time].localtime && sel.updatedate < data[:ed_time].localtime && sel.L1Name == key && sel.enddate < data[:ed_time].localtime && sel.productresult != 0}
 
-         opr_list = signal_logs.select{|o| o.enddate > data[:st_time].localtime && o.updatedate < data[:ed_time].localtime && o.signalname == "MacroVar_750_path1_#{key}"}.pluck(:value).uniq.select{|i| i!=nil && i!= 0}#.map(&:to_i)
+         opr_list = signal_logs.select{|o| o.enddate > data[:st_time].localtime && o.updatedate < data[:ed_time].localtime && o.signalname == "MacroVar_100_path1_#{key}"}.pluck(:value).uniq.select{|i| i!=nil && i!= 0}#.map(&:to_i)
          
         operator_name = []
         opr_list.each do |op_li|
@@ -305,9 +304,9 @@ class Report
               effe = (actual_produced.to_f/target.to_f)
             end
            end
-           rejection = signal_logs.select{|o| o.enddate > data[:st_time].localtime && o.updatedate < data[:ed_time].localtime && o.signalname == "MacroVar_756_path1_#{key}"}.pluck(:value).uniq.select{|i| i!=nil && i!= 0}.sum
-           rework =  signal_logs.select{|w| w.enddate > data[:st_time].localtime && w.updatedate < data[:ed_time].localtime && w.signalname == "MacroVar_757_path1_#{key}"}.pluck(:value).uniq.select{|i| i!=nil && i != 0}.sum 
-           oper_id = signal_logs.select{|q| q.enddate > data[:st_time].localtime && q.updatedate < data[:ed_time].localtime && q.signalname == "MacroVar_752_path1_#{key}"}.pluck(:value).uniq.select{|i| i!=nil && i!= 0}
+           rejection = signal_logs.select{|o| o.enddate > data[:st_time].localtime && o.updatedate < data[:ed_time].localtime && o.signalname == "MacroVar_104_path1_#{key}"}.pluck(:value).uniq.select{|i| i!=nil && i!= 0}.sum
+           rework =  signal_logs.select{|w| w.enddate > data[:st_time].localtime && w.updatedate < data[:ed_time].localtime && w.signalname == "MacroVar_105_path1_#{key}"}.pluck(:value).uniq.select{|i| i!=nil && i != 0}.sum 
+           oper_id = signal_logs.select{|q| q.enddate > data[:st_time].localtime && q.updatedate < data[:ed_time].localtime && q.signalname == "MacroVar_100_path1_#{key}"}.pluck(:value).uniq.select{|i| i!=nil && i!= 0}
 
                      
            float_value = data[:comp_id]%1

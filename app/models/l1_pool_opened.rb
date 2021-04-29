@@ -53,14 +53,12 @@ def self.j_c#(a,b)
 
     key_list = []
     machines.each do |jj|
-    key_list << "MacroVar_750_path1_#{jj[0]}"
-    key_list << "MacroVar_751_path1_#{jj[0]}"
-    key_list << "MacroVar_752_path1_#{jj[0]}"
-    key_list << "MacroVar_753_path1_#{jj[0]}"
-    key_list << "MacroVar_754_path1_#{jj[0]}"
-    key_list << "MacroVar_755_path1_#{jj[0]}"
-    key_list << "MacroVar_756_path1_#{jj[0]}"
-    key_list << "MacroVar_757_path1_#{jj[0]}"
+    key_list << "MacroVar_100_path1_#{jj[0]}"
+    key_list << "MacroVar_101_path1_#{jj[0]}"
+    key_list << "MacroVar_102_path1_#{jj[0]}"
+    key_list << "MacroVar_103_path1_#{jj[0]}"
+    key_list << "MacroVar_104_path1_#{jj[0]}"
+    key_list << "MacroVar_105_path1_#{jj[0]}"
     end
 key_lists = L1SignalPoolActive.pluck(:signalname).uniq
 
