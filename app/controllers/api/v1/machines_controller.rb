@@ -30,16 +30,16 @@ module Api
                
         data = cur_st.r_data.select{|i| i[:machine] == machine}
         operators = Operator.all
-        root_card = "MacroVar_101_path1_#{machine}"
-        op_id = "MacroVar_102_path1_#{machine}"
-        key_list = ["MacroVar_101_path1_#{machine}"]
+        root_card = "MacroVar_901_path1_#{machine}"
+        op_id = "MacroVar_902_path1_#{machine}"
+        key_list = ["MacroVar_901_path1_#{machine}"]
         servo_temp = ["ServoTemp_0_path1_#{machine}", "ServoTemp_1_path1_#{machine}", "ServoTemp_2_path1_#{machine}"]
         servo_load = ["ServoLoad_0_path1_#{machine}", "ServoLoad_1_path1_#{machine}"]
         spendle_load = ["SpindleLoad_0_path1_#{machine}"]
         sig_parms = L1SignalPoolActive.where(L1Name: machine)#, signalname: servo_load)
         sv_load = sig_parms.where(:signalname.in => servo_load)
         sp_load = sig_parms.where(:signalname.in => spendle_load)
-        op_num = sig_parms.where(:signalname=> "MacroVar_102_path1_#{machine}") 
+        op_num = sig_parms.where(:signalname=> "MacroVar_902_path1_#{machine}") 
         if op_num.present?
         op_number = op_num.pluck(:value).last.to_i
         else
@@ -263,7 +263,7 @@ render json: {effe: over_eff, target: tot_tar, actual: act_tar, job: job, operat
       m_name = cur_st1.r_data.pluck(:machine)
       col = []
       m_name.each do |jj|
-       col << "MacroVar_103_path1_#{jj}"
+       col << "MacroVar_903_path1_#{jj}"
       end
 
       status = L1PoolOpened.all

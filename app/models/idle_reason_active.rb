@@ -40,7 +40,7 @@ class IdleReasonActive
       
       idle_reason_key = []
       machines.each do |jj|
-       idle_reason_key << "MacroVar_755_path1_#{jj[0]}"
+       idle_reason_key << "MacroVar_903_path1_#{jj[0]}"
       end
       reason_list = IdleReason.all.pluck(:code, :reason).group_by{|kk| kk[0]}
       key_values = L1SignalPool.where(:signalname.in => idle_reason_key, :enddate.gte => start_time, :updatedate.lte => end_time, :enddate.lte => end_time)
